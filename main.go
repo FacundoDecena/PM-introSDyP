@@ -3,10 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
+	pf "github.com/FacundoDecena/PM-introSDyP/pathfinder"
 	"os"
 	"os/exec"
 	"runtime"
-	"strconv"
 )
 
 func main() {
@@ -45,52 +45,11 @@ func main() {
 			continue
 		}
 
-		camino := pathFinder(int64(origen), int64(destino), dimension)
+		fmt.Println(pf.PathFinder(int64(origen), int64(destino), dimension))
 
-		for i := range camino {
-			node := strconv.FormatInt(camino[i], 2)
-			for len(node) < dimension {
-				node = "0" + node
-			}
-			fmt.Printf(node)
-			if i < len(camino)-1 {
-				fmt.Print(" -> ")
-			} else {
-				fmt.Println()
-			}
-		}
 		continuar = false
 
 	}
-}
-
-func pathFinder(origen, destino int64, dimension int) []int64 {
-	// Declaro la mascara y el slice a devolver
-	masks := make([]int64, dimension)
-	ret := make([]int64, 0)
-	// Agrego el primer nodo que es el origen
-	ret = append(ret, origen)
-	//Calculo la distancia
-	dist := origen ^ destino
-
-	for i := 0; i < dimension; i++ {
-		// Variable a devolver
-		var node int64
-		// Cargo el valor de la mascara en su slice
-		masks[i] = 1 << uint8(i)
-		// Si tengo que cambiar el bit
-		if step := dist & masks[i]; step != 0 {
-			//Lo cambio
-			if j := len(ret); j == 1 {
-				node = origen ^ step
-			} else {
-				node = ret[j-1] ^ step
-			}
-			ret = append(ret, node)
-		}
-	}
-
-	return ret
 }
 
 /* ********** */
