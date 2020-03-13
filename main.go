@@ -59,6 +59,11 @@ func main() {
 				fmt.Println()
 			}
 		}
+
+		fmt.Println("Presione enter para continuar")
+		_, _ = fmt.Fscanf(reader, "%d")
+		_, _ = fmt.Fscanf(reader, "%d")
+
 		continuar = false
 
 	}
