@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	pf "github.com/FacundoDecena/PM-introSDyP/pathfinder"
 	"os"
@@ -14,6 +15,7 @@ func main() {
 	var origen, destino, dimension, maxDim int
 	reader := bufio.NewReader(os.Stdin)
 	for continuar {
+		var err error
 		CallClear()
 		fmt.Println("Ingrese una dimension: ")
 		_, _ = fmt.Fscanf(reader, "%d")
@@ -21,25 +23,15 @@ func main() {
 
 		maxDim = (1 << dimension) - 1
 
-		fmt.Println("Ingrese un origen: ")
-		_, _ = fmt.Fscanf(reader, "%d")
-		_, _ = fmt.Fscanf(reader, "%d", &origen)
-
-		if origen > maxDim {
-			fmt.Println("El origen es mayor al maximo permitido por la dimension")
-			fmt.Println("Presione enter para continuar")
+		origen, err = readNode(dimension, maxDim)
+		if err != nil {
 			_, _ = fmt.Fscanf(reader, "%d")
 			_, _ = fmt.Fscanf(reader, "%d")
 			continue
 		}
 
-		fmt.Println("Ingrese un destino: ")
-		_, _ = fmt.Fscanf(reader, "%d")
-		_, _ = fmt.Fscanf(reader, "%d", &destino)
-
-		if destino > maxDim {
-			fmt.Println("El destino es mayor al maximo permitido por la dimension")
-			fmt.Println("Presione enter para continuar")
+		destino, err = readNode(dimension, maxDim)
+		if err != nil {
 			_, _ = fmt.Fscanf(reader, "%d")
 			_, _ = fmt.Fscanf(reader, "%d")
 			continue
@@ -50,6 +42,30 @@ func main() {
 		continuar = false
 
 	}
+}
+
+/* ********** */
+func readNode(dim, maxDim int) (nodo int, err error) {
+	reader := bufio.NewReader(os.Stdin)
+	nodo = 0
+	fmt.Println("Ingrese un nodo: ")
+	_, err = fmt.Fscanf(reader, "%b", &nodo)
+
+	if nodo > maxDim {
+		fmt.Println("El nodo es mayor al maximo permitido por la dimension")
+		fmt.Println("Presione enter para continuar")
+		err = errors.New("Mayor al maximo")
+		return
+	}
+
+	if err != nil {
+		fmt.Println("Debe ingresar numeros en formato binario")
+		fmt.Println("Presione enter para continuar")
+		err = errors.New("Formato binario")
+	}
+
+	return
+
 }
 
 /* ********** */

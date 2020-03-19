@@ -17,7 +17,7 @@ func PathFinder(origen, destino int64, dimension int) string {
 	dist := origen ^ destino
 
 	for i := 0; i < dimension; i++ {
-		// Cargo el valor de la mascara en su slice
+		// Cargo el valor de la mascara
 		mask = 1 << uint8(i)
 		// Si tengo que cambiar el bit
 		if step := dist & mask; step != 0 {
