@@ -39,6 +39,8 @@ func main() {
 
 		fmt.Println(pf.PathFinder(int64(origen), int64(destino), dimension))
 
+		_, _ = fmt.Fscanf(reader, "%d")
+		_, _ = fmt.Fscanf(reader, "%d")
 		continuar = false
 
 	}
